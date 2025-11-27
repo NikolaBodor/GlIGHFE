@@ -1,10 +1,11 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { createUser, getUserById } from '../apis/users'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { IfAuthenticated, IfNotAuthenticated } from './Authenticated'
 import { UserData } from '../../models/user'
+// import { PhotoUploader } from './PhotoUploader'
 
 function LoginPage() {
   const emptyFormState = {
@@ -17,6 +18,7 @@ function LoginPage() {
   const { loginWithRedirect, isAuthenticated, user } = useAuth0()
   const navigate = useNavigate()
   const [formState, setFormState] = useState<UserData>(emptyFormState)
+  // const [imageId, setImageId] = useState('')
   const authId = user?.sub ?? ''
   const createMutation = useMutation({
     mutationFn: (user: UserData) => createUser(user),
@@ -55,13 +57,19 @@ function LoginPage() {
     })
   }
 
-  const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (evt: any) => {
     const { name, value } = evt.target
     setFormState((prev) => ({
       ...prev,
       [name]: value,
     }))
   }
+
+  // function handleImageChange(newImage: string) {
+  //   setImageId(newImage)
+  //   console.log(newImage)
+  //   console.log(imageId)
+  // }
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault()
@@ -84,13 +92,12 @@ function LoginPage() {
   return (
     <div className="flex flex-col items-center">
       <IfNotAuthenticated>
-        <h1>GlIGHFE</h1>
         <button onClick={handleLogin}>
           <img src="../../images/loginButton96.png" alt="Login Logo" />
         </button>
       </IfNotAuthenticated>
       <IfAuthenticated>
-        <p className='mt-5'>Create Account</p>
+        <p className="mt-5">Create Account</p>
         <form onSubmit={handleSubmit}>
           <div>
             <label
@@ -115,31 +122,47 @@ function LoginPage() {
               className="text-heading mb-2.5 block text-sm font-medium"
             >
               Bio:
-              <input
+              <textarea
                 name="bio"
-                type="text"
                 id="bio"
                 placeholder="Bio"
-                className="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full rounded-lg border border-black px-3 py-2.5 text-sm"
+                rows={2}
+                className="overflow-wrap break-word bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full resize-none overflow-hidden rounded-lg border border-black px-3 py-2.5 text-sm"
                 value={formState.bio}
                 onChange={handleChange}
-              ></input>
+                onInput={(e) => {
+                  e.currentTarget.style.height = 'auto'
+                  e.currentTarget.style.height =
+                    e.currentTarget.scrollHeight + 'px'
+                }}
+              ></textarea>
             </label>
-            {/* Also profile picture */}
+            {/* <label
+              htmlFor="Profile Picture"
+              className="text-heading mb-2.5 block text-sm font-medium"
+            >
+              Profile Picture:
+            <div>
+              <PhotoUploader
+                image={imageId}
+                onImageChange={handleImageChange}
+              />
+            </div>
+            </label> */}
           </div>
-          <button type="button" className="bg-lime-300 ml-7 box-border border border-transparent hover:bg-success-strong focus:ring-4 focus:ring-success-medium shadow-xs font-medium leading-5 rounded-full text-sm px-4 py-2.5 focus:outline-none">Create Profile</button>
+          <button
+            type="submit"
+            className="hover:bg-success-strong focus:ring-success-medium shadow-xs ml-7 box-border rounded-full border border-transparent bg-lime-300 px-4 py-2.5 text-sm font-medium leading-5 focus:outline-none focus:ring-4"
+          >
+            Create Profile
+          </button>
         </form>
       </IfAuthenticated>
       <IfNotAuthenticated>
-        <p>Please log in create a profile and explore!</p>
+        <p>Please log in to create a profile and explore!</p>
       </IfNotAuthenticated>
     </div>
   )
 }
 
 export default LoginPage
-
-// <div>
-//         <label for="visitors" class="block mb-2.5 text-sm font-medium text-heading">Base Input</label>
-//         <input type="text" id="visitors" class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="" required />
-//     </div>
