@@ -11,7 +11,7 @@ function Post({ post }: Props) {
       {post.imageUrl && (
         <img
           src={post.imageUrl}
-          alt={post.message}
+          alt={post.message || `A post by ${post.userName}`}
           className="mt-2 h-auto w-full rounded-md"
         />
       )}
