@@ -14,48 +14,46 @@ function LoginPage() {
     profilePicture: '',
   } as UserData
   const queryClient = useQueryClient()
-  const { loginWithRedirect, isAuthenticated } = useAuth0()
+  const { loginWithRedirect, isAuthenticated, user } = useAuth0()
   const navigate = useNavigate()
   const [formState, setFormState] = useState<UserData>(emptyFormState)
-
+  const authId = user?.sub ?? ''
   const createMutation = useMutation({
     mutationFn: (user: UserData) => createUser(user),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user'] })
+      queryClient.invalidateQueries({ queryKey: ['user', authId] })
     },
   })
 
-  // const {
-  //   data: user,
-  //   isLoading,
-  //   isError,
-  // } = useQuery({
-  //   queryKey: ['user'],
-  //   queryFn: () => getUserById(),
-  //   enabled: isAuthenticated,
-  // })
-
-  const user = undefined // TODO: replace with actual user data when available
+  const {
+    data: userData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['user', authId],
+    queryFn: () => getUserById(authId),
+    enabled: isAuthenticated && !!authId,
+  })
 
   useEffect(() => {
     setFormState((prev) => ({
       ...prev,
+      authId,
     }))
-  })
+  }, [authId])
 
   useEffect(() => {
-    if (isAuthenticated && user) {
+    if (isAuthenticated && userData) {
       navigate('/layout')
     }
-  }, [user, isAuthenticated, navigate])
+  }, [userData, isAuthenticated, navigate])
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>
-  // }
-
-  // if (isError) {
-  //   return <div>Error loading user data</div>
-  // }
+  const handleLogin = async () => {
+    const redirectUri = `${window.location.origin}`
+    await loginWithRedirect({
+      authorizationParams: { redirect_uri: redirectUri, prompt: 'login' },
+    })
+  }
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = evt.target
@@ -75,11 +73,12 @@ function LoginPage() {
     }
   }
 
-  const handleLogin = async () => {
-    const redirectUri = `${window.location.origin}`
-    await loginWithRedirect({
-      authorizationParams: { redirect_uri: redirectUri, prompt: 'login' },
-    })
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (isError) {
+    return <div>Error loading user data</div>
   }
 
   return (
@@ -89,6 +88,7 @@ function LoginPage() {
         <button onClick={handleLogin}>Log In</button>
       </IfNotAuthenticated>
       <IfAuthenticated>
+        <p>You are logged in!! Make Profile Dummy...</p>
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="Name">

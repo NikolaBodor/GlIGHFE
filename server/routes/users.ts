@@ -24,7 +24,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.post('/',  async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const { authId, name, bio, font, profilePicture } = req.body as UserData
     await addUser({ authId, name, bio, font, profilePicture })

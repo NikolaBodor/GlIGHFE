@@ -1,5 +1,4 @@
-
-import  db  from './connection.js'
+import db from './connection.js'
 import { User, UserData } from '../../models/user.js'
 
 // export async function getAllFruits() {
@@ -7,14 +6,24 @@ import { User, UserData } from '../../models/user.js'
 //   return fruit as Fruit[]
 // }
 
-export async function getUserById(id: number | string): Promise<User> {
-  const result = await db('users').select().first().where('id', id)
+export async function getUserById(auth_id: string): Promise<User> {
+  const result = await db('users').select().first().where('auth_id', auth_id)
   return result
 }
 
-export async function addUser(data: UserData) {
-  const result = await db('user').insert(data)
+export async function addUser({
+  authId,
+  name,
+  bio,
+  font,
+  profilePicture,
+}: UserData) {
+  const result = await db('users').insert({
+    auth_id: authId,
+    name,
+    bio,
+    font,
+    profile_picture: profilePicture,
+  })
   return result
 }
-
-
