@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { PhotoUploader } from './PhotoUploader'
 import { useAuth0 } from '@auth0/auth0-react'
-import { useAddPost } from '../hooks/usePosts'
+import { useMutation } from '@tanstack/react-query'
+import { addPost } from '../apis/posts'
+import { useNavigate } from 'react-router'
 
 function UploadPage() {
   const [imageId, setImageId] = useState('kitten')
@@ -16,7 +18,14 @@ function UploadPage() {
     font: '',
     public: true,
   })
-  const addPostMutation = useAddPost()
+  const navigate = useNavigate()
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: addPost,
+    onSuccess: (data) => {
+      console.log(data)
+      navigate('/profile')
+    },
+  })
 
   function handleImageChange(newImage: string) {
     setImageId(newImage)
@@ -43,10 +52,10 @@ function UploadPage() {
       ...formData,
       imageUrl: imageId,
     }
-    addPostMutation.mutate(submissionData)
+    mutate(submissionData)
   }
 
-  if (!isAuthenticated) {
+  if (isAuthenticated) {
     return (
       <div className="flex, flex-col">
         <PhotoUploader image={imageId} onImageChange={handleImageChange} />
@@ -74,6 +83,8 @@ function UploadPage() {
           <button type="submit">Post</button>
           <br />
         </form>
+        {isPending && <p>Uploading post...</p>}
+        {isError && <p>Something went wrong uploading post</p>}
       </div>
     )
   }
