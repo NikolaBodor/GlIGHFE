@@ -46,7 +46,7 @@ export function PhotoUploader({ image, onImageChange }: Props) {
               cloudName="dfjgv0mp6"
               publicId={image}
               height="600"
-              crop="scale"
+              crop="limit"
             />
           )}
           {!image && (

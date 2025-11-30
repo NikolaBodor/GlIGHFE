@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import { useAuth0 } from '@auth0/auth0-react'
 
 function Navbar() {
-  const { user } = useAuth0()
+  const { user, isAuthenticated } = useAuth0()
 
   // const navItems = [
   //   { to: '/feed', label: 'Feed', 'aria-label': 'feed', icon: 'X' },
@@ -37,7 +37,7 @@ function Navbar() {
         {/* <span className="mt-1 text-xs">Profile</span> */}
       </Link>
       <Link
-        to="/upload"
+        to={isAuthenticated ? '/upload' : '/'}
         className="flex flex-col items-center rounded-md p-2 transition-colors duration-200 hover:bg-gray-700"
       >
         <i className="bi bi-upload text-4xl"></i>

@@ -30,6 +30,34 @@ export async function addUser({
   return result
 }
 
+export async function editUser(user: User) {
+  const result = await db('users')
+    .where('auth_id', user.auth_id)
+    .update({
+      id: user.id,
+      name: user.name,
+      bio: user.bio,
+      profile_picture: user.profile_picture,
+      auth_id: user.auth_id,
+      font: user.font,
+    })
+    .returning('*')
+  return result[0]
+}
+
+export async function editUserProfilePicture(
+  authId: string,
+  profilePicture: string,
+) {
+  const result = await db('users')
+    .where('auth_id', authId)
+    .update({
+      profile_picture: profilePicture,
+    })
+    .returning('*')
+  return result[0]
+}
+
 // Note - Following code has been refactored to use authId instead of numeric ID:
 
 // Get basic User info for profiles

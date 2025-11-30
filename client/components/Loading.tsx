@@ -22,6 +22,6 @@ function Loading() {
     }
   }, [count])
 
-  return <p>{loadingMessage.slice(0, count)}</p>
+  return <p data-testid="loading-indicator">{loadingMessage.slice(0, count)}</p>
 }
 export default Loading
