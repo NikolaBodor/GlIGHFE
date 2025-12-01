@@ -16,7 +16,7 @@ export default function Layout() {
         {/* Bottom padding to account for fixed navbar height */}
         <Outlet />
       </main>
-      {!noNavbarPaths.includes(location.pathname) ? <Navbar /> : null}
+      {!noNavbarPaths.includes(location.pathname) && <Navbar />}
     </div>
   )
 }

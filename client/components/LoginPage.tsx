@@ -92,8 +92,7 @@ function LoginPage() {
     return <Loading />
   }
 
-  if (isError && (error as any).status === 404) navigate('/loginpage')
-  else {
+  if (isError && (error as any)?.status !== 404) {
     return <div>Error loading user data</div>
   }
 
