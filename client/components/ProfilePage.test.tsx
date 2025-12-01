@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import '@testing-library/jest-dom/vitest'
 import '../tests/setup' // Corrected path
 
@@ -185,31 +185,38 @@ describe('ProfilePage Component', () => {
     })
 
     await waitFor(() => {
+      // Check for user profile details
       expect(
         screen.getByRole('heading', { level: 1, name: /Test User/i }),
       ).toBeInTheDocument()
       expect(screen.getByText('This is a test bio.')).toBeInTheDocument()
-      expect(screen.getByAltText("Test User's profile")).toHaveAttribute(
-        'src',
-        'test_profile.jpg',
-      )
 
+      // Check for the new icon buttons by their accessible label
+      const viewFollowersButton = screen.getByLabelText('View Followers')
+      const viewFollowingButton = screen.getByLabelText('View Following')
+      expect(viewFollowersButton).toBeInTheDocument()
+      expect(viewFollowingButton).toBeInTheDocument()
+
+      // Get the parent container of the buttons
+      const statsContainer = viewFollowersButton.parentElement!
+
+      // Ensure the OLD text is not present inside the stats container
       expect(
-        screen.getByText(
-          (content, element) => element?.textContent === '1 Posts',
-        ),
-      ).toBeInTheDocument()
+        within(statsContainer).queryByText(/Posts/i),
+      ).not.toBeInTheDocument()
       expect(
-        screen.getByText(
-          (content, element) => element?.textContent === '1 Followers',
-        ),
-      ).toBeInTheDocument()
+        within(statsContainer).queryByText(/Followers/i),
+      ).not.toBeInTheDocument()
       expect(
-        screen.getByText(
-          (content, element) => element?.textContent === '1 Following',
-        ),
+        within(statsContainer).queryByText(/Following/i),
+      ).not.toBeInTheDocument()
+
+      // Check that the main "Posts" section heading IS still on the page
+      expect(
+        screen.getByRole('heading', { level: 2, name: /Posts/i }),
       ).toBeInTheDocument()
 
+      // Check that post content is still rendered
       expect(screen.getByText('Hello World')).toBeInTheDocument()
     })
   })
