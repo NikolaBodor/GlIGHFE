@@ -1,8 +1,12 @@
 import { Outlet } from 'react-router'
 import Navbar from './Navbar'
+import { useLocation } from 'react-router-dom'
 
 export default function Layout() {
+  const location = useLocation()
+  const noNavbarPaths = ['/', '/onboarding']
   const wingdings = false
+
   return (
     <div className={wingdings ? "font-['wingdings']" : 'font-sans'}>
       <header className="flex flex-col items-center">
@@ -12,10 +16,7 @@ export default function Layout() {
         {/* Bottom padding to account for fixed navbar height */}
         <Outlet />
       </main>
-      <nav>
-        <Navbar />
-      </nav>
-      {/* <footer></footer> */}
+      {!noNavbarPaths.includes(location.pathname) && <Navbar />}
     </div>
   )
 }
