@@ -9,7 +9,6 @@ const rootURL = `/api/v1`
 // the string `authId` for identification, not the internal numeric database `id`.
 
 export async function getUserById(authId: string): Promise<UserData> {
-  console.log('Fetching user')
   const response = await request.get(`${rootURL}/users/${authId}`)
   return response.body
 }

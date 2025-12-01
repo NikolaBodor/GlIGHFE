@@ -1,7 +1,7 @@
 import useEmblaCarousel from 'embla-carousel-react'
 import type { EmblaOptionsType } from 'embla-carousel'
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 
 type PropType = {
   textBoxes: string[]
@@ -34,10 +34,10 @@ const EmblaCarousel = (props: PropType) => {
     <section className="w-full overflow-hidden">
       <div className="w-full overflow-hidden" ref={emblaRef}>
         <div className="flex">
-          {textBoxes.map((text, index) => (
+          {textBoxes.map((text) => (
             <div
-              className="h-60% flex min-w-0 flex-[0_0_100%] items-center justify-center p-8"
-              key={index}
+              className="h-[60%] flex min-w-0 flex-[0_0_100%] items-center justify-center p-8"
+              key={text}
             >
               <div className="max-w-2xl text-center text-3xl">
                 <p>{text}</p>
@@ -51,7 +51,6 @@ const EmblaCarousel = (props: PropType) => {
         <button
           onClick={() => {
             navigate('/feed')
-            // another useQuery maybe to check the user is in the database
           }}
           className="hover:bg-success-strong focus:ring-success-medium shadow-xs text-md ml-7 box-border rounded-xl border-2 border-black bg-lime-400 p-0.5 px-4 py-2.5 font-bold leading-5 focus:outline-none focus:ring-4"
         >
