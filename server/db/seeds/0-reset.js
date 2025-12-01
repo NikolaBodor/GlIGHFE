@@ -14,7 +14,7 @@ export async function seed(knex) {
   //    every seed run. This is crucial for predictable and repeatable tests.
 
   // Temporarily disable foreign key checks
-  await knex.raw('PRAGMA foreign_keys = OFF;')
+  // await knex.raw('PRAGMA foreign_keys = OFF;')
 
   const tables = ['users', 'posts', 'comments', 'likes', 'followers']
 
