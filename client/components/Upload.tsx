@@ -5,10 +5,54 @@ import { useNavigate } from 'react-router'
 import Loading from './Loading'
 import { PostData } from '../../models/post'
 import { useAddPost } from '../hooks/usePosts'
+import EmojiPicker, { EmojiStyle, Categories } from 'emoji-picker-react'
 
 function UploadPage() {
   const [imageId, setImageId] = useState('')
   const [charLimit, setCharLimit] = useState(10)
+  const [showPicker, setShowPicker] = useState(false)
+  // type CategoryConfig = {
+  //   category: Categories
+  //   name: string
+  // }
+  // const categories: CategoryConfig[] = [
+  //   {
+  //     category: 'suggested',
+  //     name: '',
+  //   },
+  //   {
+  //     category: 'smileys_people',
+  //     name: '',
+  //   },
+  //   {
+  //     category: 'animals_nature',
+  //     name: '',
+  //   },
+  //   {
+  //     category: 'food_drink',
+  //     name: '',
+  //   },
+  //   {
+  //     category: 'travel_places',
+  //     name: '',
+  //   },
+  //   {
+  //     category: 'activities',
+  //     name: '',
+  //   },
+  //   {
+  //     category: 'objects',
+  //     name: '',
+  //   },
+  //   {
+  //     category: 'symbols',
+  //     name: '',
+  //   },
+  //   {
+  //     category: 'flags',
+  //     name: '',
+  //   },
+  // ]
 
   const { user, isAuthenticated } = useAuth0()
   const navigate = useNavigate()
@@ -34,6 +78,13 @@ function UploadPage() {
     setFormData((previousData) => ({
       ...previousData,
       [name]: value,
+    }))
+  }
+
+  const onEmojiClick = (emojiObject: { emoji: string }) => {
+    setFormData((previousData) => ({
+      ...previousData,
+      message: previousData.message + emojiObject.emoji,
     }))
   }
 
@@ -83,22 +134,58 @@ function UploadPage() {
           ></input> */}
           <br />
           {imageId && (
-            <div className="flex flex-row justify-between">
-              <label className="collapse" htmlFor="caption">
-                Caption
-              </label>
-              <input
-                className="w-full rounded-lg p-2 text-4xl outline outline-gray-700"
-                name="message"
-                id="caption"
-                type="text"
-                maxLength={charLimit}
-                onChange={handleChange}
-                value={formData.message}
-              ></input>
-              <button type="submit">
-                <i className="bi bi-send-fill pl-6 text-6xl text-gray-700"></i>
-              </button>
+            <div className="flex-col gap-4">
+              <div className="flex flex-row items-start justify-between">
+                <label className="collapse" htmlFor="caption">
+                  Caption
+                </label>
+                <div className="flex min-h-[520px] w-full flex-col">
+                  <input
+                    className="w-full rounded-lg p-2 text-4xl outline outline-gray-700"
+                    name="message"
+                    id="caption"
+                    type="text"
+                    maxLength={charLimit}
+                    onChange={handleChange}
+                    value={formData.message}
+                  ></input>
+                  {showPicker && (
+                    <EmojiPicker
+                      categories={[
+                        { category: 'suggested' as Categories, name: '' },
+                        { category: 'smileys_people' as Categories, name: '' },
+                        { category: 'animals_nature' as Categories, name: '' },
+                        { category: 'food_drink' as Categories, name: '' },
+                        { category: 'travel_places' as Categories, name: '' },
+                        { category: 'activities' as Categories, name: '' },
+                        { category: 'objects' as Categories, name: '' },
+                        { category: 'symbols' as Categories, name: '' },
+                        { category: 'flags' as Categories, name: '' },
+                      ]}
+                      previewConfig={{
+                        defaultEmoji: '1f60a',
+                        defaultCaption: '',
+                        showPreview: false,
+                      }}
+                      className=""
+                      width="full"
+                      onEmojiClick={onEmojiClick}
+                      emojiStyle={EmojiStyle.NATIVE}
+                      searchPlaceHolder=""
+                    />
+                  )}
+                </div>
+                <button
+                  className="pl-4 text-5xl"
+                  type="button"
+                  onClick={() => setShowPicker((val) => !val)}
+                >
+                  😀
+                </button>
+                <button type="submit">
+                  <i className="bi bi-send-fill pl-6 text-6xl text-gray-700"></i>
+                </button>
+              </div>
             </div>
           )}
           <br />
