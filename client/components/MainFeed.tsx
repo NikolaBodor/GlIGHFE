@@ -1,9 +1,9 @@
-import { usePosts } from '../hooks/usePosts'
+import { usePostsWithAuthor } from '../hooks/usePosts'
 import Loading from './Loading'
 import Post from './Post'
 
 function MainFeed() {
-  const { data: posts, isLoading, isError } = usePosts()
+  const { data: posts, isLoading, isError } = usePostsWithAuthor()
 
   if (isLoading) {
     return <Loading />
@@ -12,6 +12,7 @@ function MainFeed() {
   if (isError) {
     return <div>Error fetching posts</div>
   }
+  console.log(posts)
 
   return (
     <div className="h-screen p-4">
