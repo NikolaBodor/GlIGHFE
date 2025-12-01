@@ -1,4 +1,5 @@
 import { Post as PostType } from '../../models/post'
+import { CommentSection } from './CommentSection'
 import { Image } from 'cloudinary-react'
 import { useEditUserProfilePicture } from '../hooks/useProfile'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -56,6 +57,7 @@ function Post({ post }: Props) {
         />
       )}
       <p className="mt-2 text-4xl text-gray-800">{post.message}</p>
+      <CommentSection postId={post.id} />
       {/* <p className="mt-1 text-sm text-gray-500">
         {new Date(post.dateAdded).toLocaleString('en-NZ', options)}
       </p> */}
