@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import db from '../db/connection'
+// import db from '../db/connection'
 // import checkJwt, { JwtRequest } from '../auth0.ts'
 import { StatusCodes } from 'http-status-codes'
 import {
@@ -127,22 +127,5 @@ router.get('/:id/following', async (req, res, next) => {
 //     }
 //   }
 // })
-
-router.get('/debug-check', async (req, res) => {
-  try {
-    const post = await db('posts').where('id', 20).select()
-    const user = await db('users')
-      .where('auth_id', 'google-oauth2|111673980999310424793')
-      .select()
-
-    res.json({
-      note: "Checking for post with id=20 and user with auth_id='google-oauth2|...'",
-      foundPost: post,
-      foundUser: user,
-    })
-  } catch (e) {
-    res.status(500).json({ error: e.message })
-  }
-})
 
 export default router

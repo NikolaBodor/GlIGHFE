@@ -75,7 +75,6 @@ export function CommentSection({ postId }: Props) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('hjelp')
 
     if (authId) {
       const newComment: CommentData = {
@@ -96,7 +95,7 @@ export function CommentSection({ postId }: Props) {
   }
 
   return (
-    <div>
+    <div className="w-full">
       {isAuthenticated && (
         <div className="m-2 rounded-lg border border-[#c7ef9f] bg-white p-2">
           <Collapsible.Root open={commentsOpen} onOpenChange={setCommentsOpen}>
