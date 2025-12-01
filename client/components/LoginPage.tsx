@@ -33,10 +33,12 @@ function LoginPage() {
     data: userData,
     isLoading,
     isError,
+    error,
   } = useQuery({
     queryKey: ['user', authId],
     queryFn: () => getUserById(authId),
     enabled: isAuthenticated && !!authId,
+    retry: 2,
   })
 
   useEffect(() => {
@@ -50,7 +52,8 @@ function LoginPage() {
     if (isAuthenticated && userData) {
       navigate('/feed')
     }
-  }, [userData, isAuthenticated, navigate])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData, isAuthenticated])
 
   const handleLogin = async () => {
     const redirectUri = `${window.location.origin}`
@@ -85,13 +88,13 @@ function LoginPage() {
     }
   }
 
-  // if (isLoading) {
-  //   return <Loading />
-  // }
+  if (isLoading) {
+    return <Loading />
+  }
 
-  // if (isError) {
-  //   return <div>Error loading user data</div>
-  // }
+  if (isError && (error as any)?.status !== 404) {
+    return <div>Error loading user data</div>
+  }
 
   return (
     <div className="flex flex-col items-center">
