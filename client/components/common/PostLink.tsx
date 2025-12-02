@@ -11,7 +11,7 @@ export const PostLink: React.FC<UserProfileLinkProps> = ({
   onClick,
   id,
 }) => {
-  // If there's no auth_id, just render the children without a link
+
 
   return (
     <Link to={`/post/${id}`} onClick={onClick}>
