@@ -64,9 +64,6 @@ export function useDeletePost() {
       queryClient.invalidateQueries({
         queryKey: ['profilePosts', variables.userId],
       })
-      queryClient.invalidateQueries({
-        queryKey: ['posts'],
-      })
     },
   })
 }

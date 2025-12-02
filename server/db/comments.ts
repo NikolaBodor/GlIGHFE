@@ -68,6 +68,5 @@ export async function deleteComment(comment: Comment): Promise<Comment> {
     .where('id', comment.id)
     .delete()
     .returning('*')
-  console.log(deletedComment)
   return deletedComment[0]
 }

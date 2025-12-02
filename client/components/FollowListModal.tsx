@@ -108,17 +108,15 @@ const FollowListModal: React.FC<FollowListModalProps> = ({
                 className="flex items-center space-x-4 border-b py-2 last:border-b-0 hover:bg-gray-50"
               >
                 <div className="flex h-16 w-16 items-center justify-center space-x-4 overflow-hidden rounded-full bg-gray-900 p-1 shadow-md">
-                  <button>
-                    <Image
-                      className="rounded-full"
-                      cloudName="dfjgv0mp6"
-                      publicId={user.profile_picture}
-                      alt={user.name + "'s profile"}
-                      width="300"
-                      height="300"
-                      crop="fill"
-                    />
-                  </button>
+                  <Image
+                    className="rounded-full"
+                    cloudName="dfjgv0mp6"
+                    publicId={user.profile_picture}
+                    alt={user.name + "'s profile"}
+                    width="300"
+                    height="300"
+                    crop="fill"
+                  />
                 </div>
                 <p className="font-medium text-gray-900">{user.name}</p>
               </UserProfileLink>

@@ -67,7 +67,7 @@ function Post({ post, editMode = false }: Props) {
             <button onClick={handleProfileClick} className="text-right">
               <i className="bi bi-person-circle text-3xl"></i>
             </button>
-            <button onClick={() => handleDeleteClick()} className="text-right">
+            <button onClick={handleDeleteClick} className="text-right">
               <i className="bi bi-trash-fill text-3xl"></i>
             </button>
           </div>

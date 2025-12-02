@@ -44,7 +44,7 @@ export function Comment({ commentData }: { commentData: CommentWithAuthor }) {
         )}
       </div>
       {user?.sub === commentData.userId && (
-        <button onClick={() => handleDeleteClick()} className="text-right">
+        <button onClick={handleDeleteClick} className="text-right">
           <i className="bi bi-trash-fill text-3xl"></i>
         </button>
       )}

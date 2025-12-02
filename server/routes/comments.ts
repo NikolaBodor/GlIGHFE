@@ -78,11 +78,9 @@ router.patch('/:id', async (req, res) => {
 router.delete('/', async (req, res) => {
   try {
     const comment: Comment = req.body
-    // console.log(comment)
     const deletedComment = await db.deleteComment(comment)
     if (!deletedComment) {
-      // Check if deletion was unsuccessful
-      return res.send('comment not found')
+      return res.status(404).json({ message: 'Comment not found' })
     }
     res.json(deletedComment)
   } catch (err: unknown) {
@@ -91,7 +89,7 @@ router.delete('/', async (req, res) => {
     } else {
       console.error('something went wrong')
     }
-    res.sendStatus(500)
+    res.status(500).json({ message: 'Something went wrong deleting comment' })
   }
 })
 

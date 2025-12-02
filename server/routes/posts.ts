@@ -54,8 +54,7 @@ router.delete('/', async (req, res) => {
     const post: Post = req.body
     const deletedPost = await db.deletePost(post)
     if (!deletedPost) {
-      // Check if deletion was unsuccessful
-      return res.send('post not found')
+      return res.status(404).json({ message: 'Post not found' })
     }
     res.json(deletedPost)
   } catch (err: unknown) {
@@ -64,7 +63,7 @@ router.delete('/', async (req, res) => {
     } else {
       console.error('something went wrong')
     }
-    res.sendStatus(500)
+    res.status(500).json({ message: 'Something went wrong deleting post' })
   }
 })
 
