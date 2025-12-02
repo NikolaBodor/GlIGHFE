@@ -357,7 +357,7 @@ function ProfilePage() {
               }}
             >
               <i
-                className={`bi ${editMode ? 'bi-pencil' : 'bi-pencil-fill'} text-black. text-2xl  `}
+                className={`bi ${editMode ? 'bi-pencil' : 'bi-pencil-fill'} text-black text-2xl  `}
               ></i>
             </button>
           )}
