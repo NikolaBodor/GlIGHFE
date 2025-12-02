@@ -35,16 +35,16 @@ const EmblaCarousel = (props: PropType) => {
   const isLastSlide = currentIndex === textBoxes.length - 1
 
   return (
-    <section className="w-full px-8">
-      <div className="touch-pan-y overflow-hidden" ref={emblaRef}>
+    <section className="w-full px-1 sm:px-4 md:px-6 lg:px-8">
+      <div className="min-w-0 touch-pan-y overflow-hidden" ref={emblaRef}>
         <div className="flex touch-pan-y">
           {textBoxes.map((text, index) => (
             <div
-              className="flex min-w-0 flex-[0_0_100%] items-center justify-center py-8"
+              className="flex min-w-0 flex-[0_0_100%] items-center justify-center py-4 sm:py-8"
               key={index}
             >
-              <div className="text-center text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
-                <p>{text}</p>
+              <div className="w-full break-words px-3 text-center text-xs sm:px-4 sm:text-base md:text-lg lg:text-xl xl:text-2xl">
+                <p className="leading-relaxed">{text}</p>
               </div>
             </div>
           ))}
