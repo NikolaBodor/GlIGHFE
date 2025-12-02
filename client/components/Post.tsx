@@ -9,9 +9,10 @@ import PostLink from './common/PostLink'
 
 interface Props {
   post: PostWithAuthor
+  editMode?: boolean
 }
 
-function Post({ post }: Props) {
+function Post({ post, editMode = false }: Props) {
   const { mutate } = useEditUserProfilePicture()
   const { mutate: deleteMutate } = useDeletePost()
   const { user } = useAuth0()
@@ -61,7 +62,7 @@ function Post({ post }: Props) {
           </button>
         </div>
         <h3 className="text-4xl font-bold">{post.userName}</h3>
-        {post.userId === user?.sub ? (
+        {editMode ? (
           <div>
             <button onClick={handleProfileClick} className="text-right">
               <i className="bi bi-person-circle text-3xl"></i>

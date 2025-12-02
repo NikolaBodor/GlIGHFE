@@ -370,7 +370,7 @@ function ProfilePage() {
       {userPosts && userPosts.length > 0 ? (
         <div className="flex flex-col gap-4">
           {userPosts.map((post) => (
-            <Post key={post.id} post={post} />
+            <Post key={post.id} post={post} editMode={editMode} />
           ))}
         </div>
       ) : (
