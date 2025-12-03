@@ -289,10 +289,10 @@ function ProfilePage() {
               </div>
             ) : (
               <div className="flex flex-col gap-2">
-                <h1 className="-mb-2 text-3xl font-bold text-black">
+                <h1 className="-mb-2 break-all text-3xl font-bold text-black">
                   {userProfile.name}
                 </h1>
-                <p className="text-gray-900">
+                <p className="break-all text-gray-900">
                   {userProfile.bio || 'No bio provided.'}
                 </p>
               </div>
